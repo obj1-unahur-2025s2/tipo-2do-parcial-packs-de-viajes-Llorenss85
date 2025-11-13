@@ -1,1 +1,36 @@
+import beneficios.*
+import packs.*
+import cordinador.*
 // completar
+test "pack nacional sin beneficions, precio base igual" {
+    const cordinadorr= new Cordinador(cantViajes=5,estaMotivado=false,añosDeExperiencia=5,rol=guia) 
+    const  packNacional=new Nacional(dias=5,precio=100,cordinador=cordinadorr,provinciaDestino="jujuy")
+    assert.equals(packNacional.valorFinal(), 100)
+
+}
+test "pack nacional con 2 beneficions, sumaCorrectamente su costo" {
+    const cordinadorr= new Cordinador(cantViajes=5,estaMotivado=false,añosDeExperiencia=5,rol=guia) 
+    const  packNacional=new Nacional(dias=5,precio=100,cordinador=cordinadorr,provinciaDestino="jujuy")
+    const trasladosPrivados=new Beneficio(tipo="trasladosPrivados",costo=100,estaVigente=true)
+    const accesoASalasVIP=new Beneficio(tipo="Acceso a salas VIP",costo=100,estaVigente=true)
+    packNacional.agregarBeneficio(trasladosPrivados)
+    packNacional.agregarBeneficio(accesoASalasVIP)
+    assert.equals(packNacional.valorFinal(), 300)
+
+}
+test "pack internacional sin beneficions, precio calculado correctamente con 20%" {
+    const cordinadorr= new Cordinador(cantViajes=21,estaMotivado=false,añosDeExperiencia=5,rol=guia) 
+    const  packIternacional=new Internacional(dias=5,precio=100,cordinador=cordinadorr,cantEscalas=4,paisDestino="argentina",esDeInteres=true)
+    assert.equals(packIternacional.valorFinal(), 120)
+
+}
+test "pack es nacional premiun" {
+    const cordinadorr= new Cordinador(cantViajes=20,estaMotivado=true,añosDeExperiencia=5,rol=guia) 
+    const  packNacional=new Nacional(dias=5,precio=100,cordinador=cordinadorr,provinciaDestino="jujuy")
+    assert.that(packNacional.esPremium())
+}
+test "pack es premiun internacional " {
+      const cordinadorr= new Cordinador(cantViajes=5,estaMotivado=false,añosDeExperiencia=5,rol=guia) 
+    const  packIternacional=new Internacional(dias=21,precio=100,cordinador=cordinadorr,cantEscalas=0,paisDestino="argentina",esDeInteres=true)
+    assert.that(packIternacional.esPremium())
+}
